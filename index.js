@@ -3,21 +3,38 @@ import ReactDOM from 'react-dom';
 import Controller from 'cerebral';
 import Model from 'cerebral-model-baobab';
 import {Container} from 'cerebral-view-react';
-import SignalClicker from './components/SignalClicker';
-import linkClicked from './signals/link-clicked';
+import Router from 'cerebral-module-router';
+import {set, copy} from 'cerebral-addons';
+import Layout from './components/Layout';
+import clickLink from './signals/click-link';
 
 const controller = Controller(Model({
-  clicks: 0
+  app: 'create',
+  id: 0,
+  idCount: 0
 }));
 
 controller.signals({
-  linkClicked
+  create: [set('state:/app', 'create')],
+  detail: [
+    set('state:/app', 'detail'),
+    copy('input:/id', 'state:/id')
+  ],
+  clickLink
 });
+
+controller.modules({
+  router: Router({
+    '/': 'create',
+    '/:id': 'detail'
+  }, {
+    onlyHash: true
+  })
+});
+
 
 ReactDOM.render((
   <Container controller={controller}>
-    <SignalClicker />
+    <Layout />
   </Container>
 ) , document.getElementById('main'));
-
-
