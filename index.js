@@ -6,7 +6,7 @@ import {Container} from 'cerebral-view-react';
 import Router from 'cerebral-module-router';
 import {set, copy} from 'cerebral-addons';
 import Layout from './components/Layout';
-import clickLink from './signals/click-link';
+import createClicked from './signals/createClicked';
 
 const controller = Controller(Model({
   app: 'create',
@@ -20,7 +20,7 @@ controller.signals({
     set('state:/app', 'detail'),
     copy('input:/id', 'state:/id')
   ],
-  clickLink
+  createClicked
 });
 
 controller.modules({

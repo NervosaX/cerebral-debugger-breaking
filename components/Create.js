@@ -5,14 +5,14 @@ import {Decorator as Cerebral} from 'cerebral-view-react';
 export default class Create extends React.Component {
   handleClick(e) {
     e.preventDefault();
-    this.props.signals.clickLink();
+    this.props.signals.createClicked();
   }
 
   render() {
     return (
       <div>
         <div>Create</div>
-        <a href="#" onClick={this.handleClick.bind(this)}>Click to create a new ID</a>
+        <button onClick={this.handleClick.bind(this)}>Click to create a new ID</button>
       </div>
     );
   }
