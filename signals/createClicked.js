@@ -4,5 +4,7 @@ import {copy, set} from 'cerebral-addons';
 export default [
   updateId,
   copy('input:/id', 'state:/id'),
-  set('app', 'detail')
+  ({input, services}) => {
+    services.router.redirect('/' + input.id)
+  }
 ];
