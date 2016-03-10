@@ -1,23 +1,42 @@
 import React from 'react';
 import {Decorator as Cerebral} from 'cerebral-view-react';
-import Create from './Create';
-import Home from './Home';
-import Detail from './Detail';
 
 @Cerebral({
-  app: 'app'
+  count: 'count'
 })
 export default class Layout extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      run: false
+    };
+  }
+
+  componentDidMount() {
+    setInterval(() => {
+      if (this.state.run) {
+        this.props.signals.updateCount();
+      }
+    }, 1000);
+  }
+
+  handleRun(e) {
+    e.preventDefault();
+    this.setState({ run: !this.state.run });
+  }
+
   render() {
-    switch (this.props.app) {
-      case 'home':
-        return <Home />;
-      case 'create':
-        return <Create />;
-      case 'detail':
-        return <Detail />;
-      default:
-        throw new Error('App not found');
-    }
+    return (
+      <div>
+        <div>Running: {this.state.run ? "true" : "false"}</div>
+        <br />
+        <div>Count: {this.props.count}</div>
+        <br />
+        <a href="#" onClick={this.handleRun.bind(this)}>
+        {this.state.run ? "Stop" : "Start"}
+        </a>
+      </div>
+    );
   }
 }
